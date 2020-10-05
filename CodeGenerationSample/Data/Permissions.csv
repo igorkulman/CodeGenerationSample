@@ -1,0 +1,3 @@
+"Name","Description"
+"accessLocation","allow the app to access geo location services"
+"deleteMessages","allow deleting messages"

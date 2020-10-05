@@ -1,0 +1,37 @@
+%{
+  import csv
+
+  permissions = []
+
+  source_file = open('../Data/permissions.csv', 'rb')
+  for line in csv.DictReader(source_file, delimiter = ','):
+      permissions.append(line["Name"])
+}%
+// GENERATED FILE - DO NOT EDIT
+// Edit AppConfigPermissions.swift.gyb and build the project
+
+import Foundation
+
+struct AppConfigPermissions: Permissions {
+% for permission in permissions:
+    let ${permission}: Permission
+% end
+
+    init(config: [String: Any]) {
+        let getPermissionForKey = { (key: String) -> Permission in
+            if let value = config[key] as? Bool {
+                switch value {
+                case true:
+                    return .Allow
+                case false:
+                    return .Deny
+                }
+            }
+            return .Undefined
+        }
+
+        % for permission in permissions:
+        ${permission} = getPermissionForKey("allow${permission[:1].upper() + permission[1:]}")
+        % end
+    }
+}

@@ -1,0 +1,24 @@
+%{
+  import csv
+  permissions = []
+
+  source_file = open('../Data/permissions.csv', 'rb')
+  for line in csv.DictReader(source_file, delimiter = ','):
+      permissions.append(line["Name"])
+}%
+// GENERATED FILE - DO NOT EDIT
+// Edit Permissions.swift.gyb and build the project
+
+import Foundation
+
+public enum Permission {
+    case Allow
+    case Deny
+    case Undefined
+}
+
+public protocol Permissions {
+    % for permission in permissions:
+    var ${permission}: Permission { get }
+    % end
+}
